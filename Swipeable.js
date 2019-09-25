@@ -14,6 +14,7 @@ const DRAG_TOSS = 0.05;
 export type PropType = {
   children: any,
   friction: number,
+  disableSwiping: bool,
   leftThreshold?: number,
   rightThreshold?: number,
   overshootLeft?: boolean,
@@ -54,6 +55,7 @@ export default class Swipeable extends Component<PropType, StateType> {
     friction: 1,
     overshootFriction: 1,
     useNativeAnimations: true,
+    disableSwiping: false,
   };
   _onGestureEvent: ?Animated.Event;
   _transX: ?Animated.Interpolation;
@@ -312,7 +314,7 @@ export default class Swipeable extends Component<PropType, StateType> {
     return (
       <PanGestureHandler
         {...this.props}
-        minDeltaX={10}
+        minDeltaX={this.props.disableSwiping ? 10000 : 10}
         onGestureEvent={this._onGestureEvent}
         onHandlerStateChange={this._onHandlerStateChange}>
         <Animated.View
